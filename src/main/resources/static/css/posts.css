@@ -1,0 +1,40 @@
+ :root {
+        --cor-de-fundo: radial-gradient(circle,rgb(81, 136, 67) 0%, rgb(136, 214, 136) 100%);;
+        --cor-de-fundo-card: #e5f0d0;
+    } 
+ body { 
+ 
+    background: var(--cor-de-fundo);
+}
+.post-card { 
+    transition: transform .12s ease; 
+    background: var(--cor-de-fundo-card);
+}
+.post-card:hover { 
+    transform: translateY(-4px); 
+}
+.post-excerpt { 
+    color: #555; 
+}
+.avatar { 
+    width:36px; 
+    height:36px; 
+    border-radius:50%; 
+    display:inline-block; 
+    background:#6c757d; 
+    color:#fff; 
+    text-align:center; 
+    line-height:36px; 
+    }
+.btn-sm{
+    border-radius: 0.25rem;
+    border: 1px solid #9da3aa;
+}
+#like:hover{
+    color: #fff;
+    background-color: #d45353;
+}
+#comment:hover{
+    color: #fff;
+    background-color: #5ad479;
+}

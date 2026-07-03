@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Pessoal</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/perfil-proprio.css}">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="profile-card card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-4">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/130" alt="Foto de perfil" class="profile-avatar mb-3">
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="mb-3">
+                            <p class="form-control-plaintext">João Silva</p>
+                            <p class="form-control-plaintext">Descrição do perfil</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="editar-perfil.html" class="btn btn-outline-primary btn-sm">Editar perfil</a>
+                            <a href="posts.html" class="btn btn-secondary btn-sm">Voltar aos posts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="posts-card card shadow-sm">
+            <div class="card-header ">
+                <h3 class="h5 mb-0">Seus posts</h3>
+                <p class="text-muted mb-0">Aqui estão seus posts publicados.</p>
+            </div>
+            <div class="list-group list-group-flush">
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h5 class="mb-1">Meu primeiro post</h5>
+                            <p class="mb-1 text-muted">Compartilhando novidades importantes sobre meu projeto.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h5 class="mb-1">Dicas de design</h5>
+                            <p class="mb-1 text-muted">Como cuidar da sua marca pessoal usando layout simples.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h5 class="mb-1">Rotina de estudos</h5>
+                            <p class="mb-1 text-muted">Meu plano para aprender novas tecnologias e organizar tarefas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

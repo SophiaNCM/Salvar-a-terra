@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/editar-perfil.css}">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="profile-card card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-4">
+                    <div class="text-center">
+                        <img id="profileImage" src="https://via.placeholder.com/130" alt="Foto de perfil" class="profile-avatar mb-3">
+                        <div>
+                            <label class="btn btn-outline-primary btn-sm mb-0">
+                                Alterar foto
+                                <input id="photoInput" type="file" accept="image/*" class="d-none">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h2 class="h4 mb-1">Editar perfil</h2>
+                        <p class="text-muted mb-4">Atualize seu nome e controle seus posts publicados.</p>
+                        <div class="border rounded p-3 bg-light mb-4">
+                            <strong>Pré-visualização</strong>
+                            <p class="mb-1">Nome: <span id="previewName">João Silva</span></p>
+                            <p class="mb-0">Descrição: <span id="previewDescription">Desenvolvedor web e criador de conteúdo.</span></p>
+                        </div>
+                        <form>
+                            <div class="mb-3">
+                                <label for="userName" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="userName" placeholder="Digite seu nome" value="João Silva">
+                            </div>
+                            <div class="mb-3">
+                                <label for="profileDescription" class="form-label">Descrição do perfil</label>
+                                <textarea class="form-control" id="profileDescription" rows="3" placeholder="Digite uma descrição breve">Desenvolvedor web e criador de conteúdo.</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="posts-card card shadow-sm">
+            <div class="card-header">
+                <h3 class="h5 mb-0">Seus posts</h3>
+                <p class="text-muted mb-0">Edite ou exclua seus posts diretamente daqui.</p>
+            </div>
+            <div class="list-group list-group-flush">
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="mb-1">Meu primeiro post</h5>
+                            <p class="mb-1 text-muted">Compartilhando novidades importantes sobre meu projeto.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button class="btn btn-outline-secondary btn-sm me-2">Editar</button>
+                            <button class="btn btn-outline-danger btn-sm">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="mb-1">Dicas de design</h5>
+                            <p class="mb-1 text-muted">Como cuidar da sua marca pessoal usando layout simples.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button class="btn btn-outline-secondary btn-sm me-2">Editar</button>
+                            <button class="btn btn-outline-danger btn-sm">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="mb-1">Rotina de estudos</h5>
+                            <p class="mb-1 text-muted">Meu plano para aprender novas tecnologias e organizar tarefas.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button class="btn btn-outline-secondary btn-sm me-2">Editar</button>
+                            <button class="btn btn-outline-danger btn-sm">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const userNameInput = document.getElementById('userName');
+        const previewName = document.getElementById('previewName');
+        const descriptionInput = document.getElementById('profileDescription');
+        const previewDescription = document.getElementById('previewDescription');
+        const photoInput = document.getElementById('photoInput');
+        const profileImage = document.getElementById('profileImage');
+
+        userNameInput.addEventListener('input', () => {
+            previewName.textContent = userNameInput.value || 'Seu nome aparecerá aqui';
+        });
+
+        descriptionInput.addEventListener('input', () => {
+            previewDescription.textContent = descriptionInput.value || 'Sua descrição aparecerá aqui';
+        });
+
+        photoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                profileImage.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
