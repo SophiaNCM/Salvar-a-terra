@@ -41,6 +41,60 @@ public class Comentario implements Serializable{
 		@ManyToOne
 		@JoinColumn(name = "Postagem_fk")
 		private Postagem PostagemId;
+
+		public Long getId() {
+			return Id;
+		}
+
+		public void setId(Long id) {
+			Id = id;
+		}
+
+		public String getConteudo() {
+			return Conteudo;
+		}
+
+		public void setConteudo(String conteudo) {
+			Conteudo = conteudo;
+		}
+
+		public LocalDateTime getPostData() {
+			return PostData;
+		}
+
+		public void setPostData(LocalDateTime postData) {
+			PostData = postData;
+		}
+
+		public String getImgURL() {
+			return ImgURL;
+		}
+
+		public void setImgURL(String imgURL) {
+			ImgURL = imgURL;
+		}
+
+		public Usuario getUsuarioId() {
+			return UsuarioId;
+		}
+
+		public void setUsuarioId(Usuario usuarioId) {
+			UsuarioId = usuarioId;
+		}
+
+		public Postagem getPostagemId() {
+			return PostagemId;
+		}
+
+		public void setPostagemId(Postagem postagemId) {
+			PostagemId = postagemId;
+		}
+
+		@Override
+		public String toString() {
+			return "Comentario [Id=" + Id + ", Conteudo=" + Conteudo + ", PostData=" + PostData + ", ImgURL=" + ImgURL
+					+ ", UsuarioId=" + UsuarioId + ", PostagemId=" + PostagemId + "]";
+		}
 		
 		
 }

@@ -41,6 +41,68 @@ public class Usuario implements Serializable{
 	
 	@OneToMany(mappedBy = "UsuarioId")
 	private List<Comentario> Comentario;
+
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public String getUsuarioNome() {
+		return UsuarioNome;
+	}
+
+	public void setUsuarioNome(String usuarioNome) {
+		UsuarioNome = usuarioNome;
+	}
+
+	public String getSenha() {
+		return Senha;
+	}
+
+	public void setSenha(String senha) {
+		Senha = senha;
+	}
+
+	public String getEmail() {
+		return Email;
+	}
+
+	public void setEmail(String email) {
+		Email = email;
+	}
+
+	public String getImgUsuario() {
+		return ImgUsuario;
+	}
+
+	public void setImgUsuario(String imgUsuario) {
+		ImgUsuario = imgUsuario;
+	}
+
+	public List<Postagem> getPostagem() {
+		return Postagem;
+	}
+
+	public void setPostagem(List<Postagem> postagem) {
+		Postagem = postagem;
+	}
+
+	public List<Comentario> getComentario() {
+		return Comentario;
+	}
+
+	public void setComentario(List<Comentario> comentario) {
+		Comentario = comentario;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [Id=" + Id + ", UsuarioNome=" + UsuarioNome + ", Senha=" + Senha + ", Email=" + Email
+				+ ", ImgUsuario=" + ImgUsuario + ", Postagem=" + Postagem + ", Comentario=" + Comentario + "]";
+	}
 	
 	
 }

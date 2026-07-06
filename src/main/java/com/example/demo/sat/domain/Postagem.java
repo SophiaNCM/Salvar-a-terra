@@ -42,6 +42,85 @@ public class Postagem implements Serializable{
 	
 	@OneToMany(mappedBy = "PostagemId")
 	private List<Comentario> Comentario;
+
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public String getTitulo() {
+		return Titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		Titulo = titulo;
+	}
+
+	public String getConteudo() {
+		return Conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		Conteudo = conteudo;
+	}
+
+	public LocalDateTime getPostData() {
+		return PostData;
+	}
+
+	public void setPostData(LocalDateTime postData) {
+		PostData = postData;
+	}
+
+	public String getTags() {
+		return Tags;
+	}
+
+	public void setTags(String tags) {
+		Tags = tags;
+	}
+
+	public int getLikes() {
+		return Likes;
+	}
+
+	public void setLikes(int likes) {
+		Likes = likes;
+	}
+
+	public String getImgURL() {
+		return ImgURL;
+	}
+
+	public void setImgURL(String imgURL) {
+		ImgURL = imgURL;
+	}
+
+	public Usuario getUsuarioId() {
+		return UsuarioId;
+	}
+
+	public void setUsuarioId(Usuario usuarioId) {
+		UsuarioId = usuarioId;
+	}
+
+	public List<Comentario> getComentario() {
+		return Comentario;
+	}
+
+	public void setComentario(List<Comentario> comentario) {
+		Comentario = comentario;
+	}
+
+	@Override
+	public String toString() {
+		return "Postagem [Id=" + Id + ", Titulo=" + Titulo + ", Conteudo=" + Conteudo + ", PostData=" + PostData
+				+ ", Tags=" + Tags + ", Likes=" + Likes + ", ImgURL=" + ImgURL + ", UsuarioId=" + UsuarioId
+				+ ", Comentario=" + Comentario + "]";
+	}
 	
 	
 }
