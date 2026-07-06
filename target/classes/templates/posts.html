@@ -24,7 +24,8 @@
           <a href="perfil-proprio.html" title="Meu perfil">
             <img src="https://via.placeholder.com/48" alt="Foto de perfil" class="rounded-circle border border-2" style="width:48px; height:48px; object-fit:cover;">
           </a>
-          <a th:href="criar-post.html" class="btn btn-success border-0 btn-sm"><i class="bi bi-plus-lg me-1"></i>Novo post</a>
+		 
+          <a th:href="@{/posts/CriarPost}" class="btn btn-success border-0 btn-sm"><i class="bi bi-plus-lg me-1"></i>Novo post</a>
 		  <form th:action="@{/logout}" method="post">
 		  	<button class="btn btn-danger border-0 btn-sm" id="logoutBtn" title="Fazer logout"><i class="bi bi-box-arrow-right" type="submit"></i> Sair</button>
 		  </form>

@@ -46,7 +46,6 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                		
                     "/login",
                     "/login-error",
                     "/css/**",
@@ -54,7 +53,9 @@ public class SecurityConfig {
                     "/images/**",
                     "/webjars/**",
                     "/usuario/registro",
-                    "/usuario/save"
+                    "/usuario/save",
+                    "/posts/listar",
+                    "/posts/CriarPost"
                 ).permitAll()
                 .anyRequest().authenticated())
 
