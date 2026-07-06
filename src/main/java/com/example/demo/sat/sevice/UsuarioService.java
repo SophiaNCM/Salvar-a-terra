@@ -6,11 +6,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.sat.domain.Usuario;
 import com.example.demo.sat.repository.UsuarioRepository;
+
+import jakarta.validation.Valid;
 
 
 
@@ -44,5 +47,12 @@ public class UsuarioService implements UserDetailsService{
 				AuthorityUtils.createAuthorityList("ROLE_USER")
 				);
 		}
+	 @Transactional
+	public void save(@Valid Usuario usuario) {
+		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
+		usuario.setSenha(crypt);
+		repository.save(usuario);
+		
+	}
 	}
 

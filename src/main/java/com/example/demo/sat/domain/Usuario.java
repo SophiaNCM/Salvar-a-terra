@@ -1,6 +1,7 @@
 package com.example.demo.sat.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -36,6 +37,14 @@ public class Usuario implements Serializable{
 	@Column(name = "ImgUsuario", nullable = true)
 	private String ImgUsuario;
 	
+	@Column(name = "DtNascimento", nullable = true)
+	private LocalDateTime DtNascimento;
+	
+
+	public void setDtNascimento(LocalDateTime dtNascimento) {
+		DtNascimento = dtNascimento;
+	}
+
 	@OneToMany(mappedBy = "UsuarioId")
 	private List<Postagem> Postagem;
 	
@@ -97,12 +106,19 @@ public class Usuario implements Serializable{
 	public void setComentario(List<Comentario> comentario) {
 		Comentario = comentario;
 	}
+	
+	public LocalDateTime getDtNascimento() {
+		return DtNascimento;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [Id=" + Id + ", UsuarioNome=" + UsuarioNome + ", Senha=" + Senha + ", Email=" + Email
-				+ ", ImgUsuario=" + ImgUsuario + ", Postagem=" + Postagem + ", Comentario=" + Comentario + "]";
+				+ ", ImgUsuario=" + ImgUsuario + ", DtNascimento=" + DtNascimento + ", Postagem=" + Postagem
+				+ ", Comentario=" + Comentario + "]";
 	}
+
+
 	
 	
 }
