@@ -12,33 +12,45 @@
         <div class="profile-card card shadow-sm mb-4">
             <div class="card-body">
                 <div class="d-flex align-items-center gap-4">
-                    <div class="text-center">
-                        <img id="profileImage" src="https://via.placeholder.com/130" alt="Foto de perfil" class="profile-avatar mb-3">
-                        <div>
-                            <label class="btn btn-outline-primary btn-sm mb-0">
-                                Alterar foto
-                                <input id="photoInput" type="file" accept="image/*" class="d-none">
-                            </label>
-                        </div>
+                    
                     </div>
                     <div class="flex-grow-1">
                         <h2 class="h4 mb-1">Editar perfil</h2>
                         <p class="text-muted mb-4">Atualize seu nome e controle seus posts publicados.</p>
                         <div class="border rounded p-3 bg-light mb-4">
                             <strong>Pré-visualização</strong>
-                            <p class="mb-1">Nome: <span id="previewName">João Silva</span></p>
-                            <p class="mb-0">Descrição: <span id="previewDescription">Desenvolvedor web e criador de conteúdo.</span></p>
+                            <p class="mb-1">Nome: <span id="previewName" th:text="${usuario.usuarioNome}">João Silva</span></p>
+                            <p class="mb-0">Descrição: <span id="previewDescription" th:text="${usuario.descricao}">Desenvolvedor web e criador de conteúdo.</span></p>
                         </div>
-                        <form>
-                            <div class="mb-3">
-                                <label for="userName" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="userName" placeholder="Digite seu nome" value="João Silva">
-                            </div>
-                            <div class="mb-3">
-                                <label for="profileDescription" class="form-label">Descrição do perfil</label>
-                                <textarea class="form-control" id="profileDescription" rows="3" placeholder="Digite uma descrição breve">Desenvolvedor web e criador de conteúdo.</textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                        <form method="post"  enctype="multipart/form-data" th:action="@{/usuario/editPerfil/save}" th:object="${usuario}">
+							<div class="container">
+								<div class="row">
+								<div class="col align-self-start">
+										<div >
+										<img id="profileImage"  th:src="${usuario.imgUsuario != null ? usuario.imgUsuario  : 'https://via.placeholder.com/130'}" alt="Foto de perfil" class="profile-avatar mb-3">
+										<div>
+										    <label class="btn btn-outline-primary btn-sm mb-0">
+										        Alterar foto
+										        <input id="photoInput" name="imgUsuario" type="file" accept="image/*" class="d-none">
+										    </label>
+										</div>
+									</div>
+								</div>
+								<div class="col-8 align-self-end">
+		                            <div >
+		                                <label for="userName" class="form-label">Nome</label>
+		                                <input type="text" class="form-control" id="userName" placeholder="Digite seu nome"  th:field="*{usuarioNome}">
+		                            </div>
+			                            <div class="">
+			                                <label for="profileDescription" class="form-label">Descrição do perfil</label>
+			                                <textarea th:field="*{descricao}"class="form-control" id="profileDescription" rows="3" placeholder="Digite uma descrição breve"></textarea>
+			                            </div>
+										<button type="submit" class="btn btn-primary">Salvar alterações</button>
+									</div>
+								</div>
+								</div>
+	                            
+							
                         </form>
                     </div>
                 </div>

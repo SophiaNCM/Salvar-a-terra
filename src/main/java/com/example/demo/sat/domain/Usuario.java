@@ -2,7 +2,12 @@ package com.example.demo.sat.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +23,7 @@ import jakarta.validation.constraints.NotNull;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="Usuario")
-public class Usuario implements Serializable{
+public class Usuario implements  UserDetails {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long Id;
 	
@@ -40,10 +45,16 @@ public class Usuario implements Serializable{
 	@Column(name = "DtNascimento", nullable = true)
 	private LocalDateTime DtNascimento;
 	
+	@Column(name = "Descricao", nullable = true)
+	private String Descricao;
+	
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.createAuthorityList("ROLE_USER");
+    }
 
-	public void setDtNascimento(LocalDateTime dtNascimento) {
-		DtNascimento = dtNascimento;
-	}
+
+
 
 	@OneToMany(mappedBy = "UsuarioId")
 	private List<Postagem> Postagem;
@@ -67,19 +78,19 @@ public class Usuario implements Serializable{
 		UsuarioNome = usuarioNome;
 	}
 
-	public String getSenha() {
+	public String getPassword() {
 		return Senha;
 	}
 
-	public void setSenha(String senha) {
+	public void setPassword(String senha) {
 		Senha = senha;
 	}
 
-	public String getEmail() {
+	public String getUsername() {
 		return Email;
 	}
 
-	public void setEmail(String email) {
+	public void setUsername(String email) {
 		Email = email;
 	}
 
@@ -110,13 +121,26 @@ public class Usuario implements Serializable{
 	public LocalDateTime getDtNascimento() {
 		return DtNascimento;
 	}
+	public void setDtNascimento(LocalDateTime dtNascimento) {
+		DtNascimento = dtNascimento;
+	}
+	
+	public String getDescricao() {
+		return Descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		Descricao = descricao;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [Id=" + Id + ", UsuarioNome=" + UsuarioNome + ", Senha=" + Senha + ", Email=" + Email
-				+ ", ImgUsuario=" + ImgUsuario + ", DtNascimento=" + DtNascimento + ", Postagem=" + Postagem
-				+ ", Comentario=" + Comentario + "]";
+				+ ", ImgUsuario=" + ImgUsuario + ", DtNascimento=" + DtNascimento + ", Descricao=" + Descricao
+				+ ", Postagem=" + Postagem + ", Comentario=" + Comentario + "]";
 	}
+
+
 
 
 	

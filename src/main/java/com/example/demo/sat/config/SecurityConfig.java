@@ -40,7 +40,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
-
+//========================================================Liberando acesso por causa do security===================================================
         http
             .authenticationProvider(authenticationProvider())
 
@@ -55,20 +55,23 @@ public class SecurityConfig {
                     "/usuario/registro",
                     "/usuario/save",
                     "/posts/listar",
-                    "/posts/CriarPost"
+                    "/posts/CriarPost",
+                    "/usuario/perfilProprio",
+                    "/usuario/editPerfil"
                 ).permitAll()
                 .anyRequest().authenticated())
-
+//===================================================================================================================================================
+//=========================================================Configurando o form de login==============================================================
             .formLogin(form -> form
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/posts/listar", true)
                 .failureUrl("/login-error")
                 .permitAll())
-
+//===================================================================================================================================================
             .logout(logout -> logout
-                .logoutSuccessUrl("/login").permitAll());
+                .logoutSuccessUrl("/").permitAll());
 
         return http.build();
     }

@@ -1,14 +1,28 @@
 package com.example.demo.sat.web.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.sat.domain.Usuario;
 import com.example.demo.sat.repository.UsuarioRepository;
@@ -22,12 +36,16 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService service;
 	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	public Usuario usuario;
+	
 	@GetMapping("/registro")
 	public String registro(Model model) {
 		model.addAttribute("usuario", new Usuario());
 		return "registro";
 	}
-	
+//====================================================Configurações da pagina de registro=========================================================
 	@PostMapping("/save")
 	public String salvarUsuario(@Valid Usuario usuario, BindingResult result){
 		try {
@@ -38,4 +56,82 @@ public class UsuarioController {
 		}
 		return "login";
 	}
+//==================================================================================================================================================
+//================================================Adicionando a pagina de perfil====================================================================
+	@GetMapping("/perfilProprio")
+	public String perfilProprio(@AuthenticationPrincipal Usuario usuario,Model model) {
+		System.out.println("Nome do usuario" + usuario.getUsuarioNome());
+		model.addAttribute("usuario", usuario);
+		return "perfil-proprio";
+	}
+	
+//==================================================================================================================================================
+
+//================================================Adicionando a pagina de editar perfil=============================================================
+
+	@GetMapping("/editPerfil")
+	public String editPerfil(@AuthenticationPrincipal Usuario usuario,Model model) {
+		System.out.println("Nome do usuario" + usuario.getUsuarioNome());
+		model.addAttribute("usuario", usuario);
+		return "editar-perfil";
+		
+	}
+//==================================================================================================================================================
+
+//====================================================Configurações da pagina de editar perfil======================================================
+
+	@PostMapping("/editPerfil/save")
+	public String editPerfil( @RequestParam("imgUsuario") MultipartFile foto,
+            @Valid Usuario usuarioForm, BindingResult result) throws IOException {
+		//Precisamos coletar o authentication do perfil por causa do security e com isso coletamos o email
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    String email = auth.getName();
+		    //Procurando o email no banco de dados
+		    Usuario usuario = usuarioRepository.findByEmail(email);
+
+		    // Atualiza somente se o nome foi informado
+		    if (usuarioForm.getUsuarioNome() != null &&
+		        !usuarioForm.getUsuarioNome().trim().isEmpty()) {
+
+		        usuario.setUsuarioNome(usuarioForm.getUsuarioNome());
+		    }
+
+		    // Atualiza somente se a descrição foi informada
+		    if (usuarioForm.getDescricao() != null &&
+		        !usuarioForm.getDescricao().trim().isEmpty()) {
+
+		        usuario.setDescricao(usuarioForm.getDescricao());
+		    }
+
+		    // Atualiza somente se uma nova foto foi enviada, como a imagem não é um link e sim um update do computador para o site, precisamos tranformar em um link
+		    if (foto != null && !foto.isEmpty()) {
+
+		        String nomeArquivo = UUID.randomUUID() + "_" + foto.getOriginalFilename();
+
+		        Path caminho = Paths.get("src/main/resources/static/img/perfis/");
+		        Files.createDirectories(caminho);
+
+		        Files.copy(
+		                foto.getInputStream(),
+		                caminho.resolve(nomeArquivo),
+		                StandardCopyOption.REPLACE_EXISTING
+		        );
+
+		        usuario.setImgUsuario("/img/perfis/" + nomeArquivo);
+		    }
+
+		    service.edit(usuario);
+		    
+		    // Atualiza o usuário da sessão
+		    Authentication novaAuth = new UsernamePasswordAuthenticationToken(
+		            usuario,
+		            auth.getCredentials(),
+		            usuario.getAuthorities());
+
+		    SecurityContextHolder.getContext().setAuthentication(novaAuth);
+
+
+		    return "redirect:/usuario/perfilProprio";
+	}
 }
+

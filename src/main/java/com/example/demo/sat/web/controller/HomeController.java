@@ -1,17 +1,18 @@
 package com.example.demo.sat.web.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.sat.domain.Usuario;
+
 @Controller
 public class HomeController {
-	@GetMapping("/")
-	public String posts() {
-		return "/posts";
-	}
+
 	//Abrir pagina login
-	@GetMapping("/login")
+	@GetMapping("/")
 	public String login() {
 		return "login";
 	}

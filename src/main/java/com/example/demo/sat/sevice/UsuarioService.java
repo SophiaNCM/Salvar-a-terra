@@ -41,18 +41,18 @@ public class UsuarioService implements UserDetailsService{
 	    if (usuario == null) {
 	        throw new UsernameNotFoundException("Usuário não encontrado");
 	    }
-		return new User(
-				usuario.getEmail(),
-				usuario.getSenha(),
-				AuthorityUtils.createAuthorityList("ROLE_USER")
-				);
+		return usuario;
 		}
+	
 	 @Transactional
 	public void save(@Valid Usuario usuario) {
-		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
-		usuario.setSenha(crypt);
+		String crypt = new BCryptPasswordEncoder().encode(usuario.getPassword());
+		usuario.setPassword(crypt);
 		repository.save(usuario);
-		
 	}
-	}
+	 @Transactional
+	public void edit(@Valid Usuario usuario) {
+		repository.save(usuario);
+	 }
+}
 
