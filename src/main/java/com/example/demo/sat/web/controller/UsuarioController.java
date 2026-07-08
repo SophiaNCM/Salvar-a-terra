@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.sat.domain.Postagem;
 import com.example.demo.sat.domain.Usuario;
+import com.example.demo.sat.repository.PostsRepository;
 import com.example.demo.sat.repository.UsuarioRepository;
 import com.example.demo.sat.sevice.UsuarioService;
 
@@ -40,6 +43,9 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	public Usuario usuario;
 	
+	public Postagem postagem;
+	@Autowired
+	public PostsRepository postsRepository;
 	@GetMapping("/registro")
 	public String registro(Model model) {
 		model.addAttribute("usuario", new Usuario());
@@ -60,8 +66,9 @@ public class UsuarioController {
 //================================================Adicionando a pagina de perfil====================================================================
 	@GetMapping("/perfilProprio")
 	public String perfilProprio(@AuthenticationPrincipal Usuario usuario,Model model) {
-		System.out.println("Nome do usuario" + usuario.getUsuarioNome());
+		List<Postagem> posts = postsRepository.findByUsuarioId(usuario);
 		model.addAttribute("usuario", usuario);
+	    model.addAttribute("posts", posts);
 		return "perfil-proprio";
 	}
 	

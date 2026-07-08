@@ -53,9 +53,11 @@ public class SecurityConfig {
                     "/images/**",
                     "/webjars/**",
                     "/usuario/registro",
+                    "/usuario","/posts",
                     "/usuario/save",
                     "/posts/listar",
                     "/posts/CriarPost",
+                    "/posts/CriarPost/save",
                     "/usuario/perfilProprio",
                     "/usuario/editPerfil"
                 ).permitAll()

@@ -34,31 +34,15 @@
                 <h3 class="h5 mb-0">Seus posts</h3>
                 <p class="text-muted mb-0">Aqui estão seus posts publicados.</p>
             </div>
-            <div class="list-group list-group-flush">
+            <div class="list-group list-group-flush" th:each="post : ${posts}">
                 <div class="list-group-item">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <h5 class="mb-1">Meu primeiro post</h5>
-                            <p class="mb-1 text-muted">Compartilhando novidades importantes sobre meu projeto.</p>
+                            <h5 class="mb-1" th:text="${post.Titulo}"></h5>
+                            <p class="mb-1 text-muted" th:text="${post.Conteudo}"></p>
                         </div>
                     </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <h5 class="mb-1">Dicas de design</h5>
-                            <p class="mb-1 text-muted">Como cuidar da sua marca pessoal usando layout simples.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <h5 class="mb-1">Rotina de estudos</h5>
-                            <p class="mb-1 text-muted">Meu plano para aprender novas tecnologias e organizar tarefas.</p>
-                        </div>
-                    </div>
-                </div>
+                </div>           
             </div>
         </div>
     </div>

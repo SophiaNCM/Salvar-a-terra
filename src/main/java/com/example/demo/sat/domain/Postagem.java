@@ -118,8 +118,7 @@ public class Postagem implements Serializable{
 	@Override
 	public String toString() {
 		return "Postagem [Id=" + Id + ", Titulo=" + Titulo + ", Conteudo=" + Conteudo + ", PostData=" + PostData
-				+ ", Tags=" + Tags + ", Likes=" + Likes + ", ImgURL=" + ImgURL + ", UsuarioId=" + UsuarioId
-				+ ", Comentario=" + Comentario + "]";
+				+ ", Tags=" + Tags + ", Likes=" + Likes + ", ImgURL=" + ImgURL + "]";
 	}
 	
 	
