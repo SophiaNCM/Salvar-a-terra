@@ -28,10 +28,3 @@ sendComment.addEventListener('click', () => {
  commentCard.classList.add('d-none');
 });
 
-readMoreLink.addEventListener('click', (event) => {
-    event.preventDefault();
-    const expanded = !postFull.classList.contains('d-none');
-    postFull.classList.toggle('d-none', expanded);
-    postExcerpt.classList.toggle('d-none', !expanded);
-    readMoreLink.textContent = expanded ? 'Ler mais' : 'Mostrar menos';
-});

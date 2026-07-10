@@ -1,4 +1,6 @@
 package com.example.demo.sat.sevice;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.sat.domain.Postagem;
@@ -12,4 +14,5 @@ public class PostsService{
 	public void save(Postagem posts) {
 		repository.save(posts);
 	 }
+	
 }

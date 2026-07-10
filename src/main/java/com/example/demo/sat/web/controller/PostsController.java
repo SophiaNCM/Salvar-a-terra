@@ -7,6 +7,8 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.sat.domain.Comentario;
 import com.example.demo.sat.domain.Postagem;
 import com.example.demo.sat.domain.Usuario;
+import com.example.demo.sat.repository.ComentarioRepository;
 import com.example.demo.sat.repository.PostsRepository;
 import com.example.demo.sat.repository.UsuarioRepository;
 import com.example.demo.sat.sevice.UsuarioService;
@@ -44,14 +48,49 @@ public class PostsController {
 	@Autowired
 	private PostsService postsService;
 	
+	@Autowired
+	private PostsRepository postsRepository;
+	
+	@Autowired
+	private ComentarioRepository comentarioRepository;
+	
+	
 	@GetMapping("/listar")
 	public String PostsListar(@AuthenticationPrincipal Usuario usuario,
 	        Model model) {
 //=========================================================Adicionando Postagem=====================================================
-	  
+		model.addAttribute("posts", postsRepository.findAll());
 		model.addAttribute("usuario", usuario);
 		return "posts";
 	}
+//==================================================================================================================================
+	
+//=========================================================comentar Postagem========================================================
+	@GetMapping("/listar/comentar")
+	public String PostsComentar( @AuthenticationPrincipal Usuario usuario,
+	        @Valid @ModelAttribute Postagem postagem, @ModelAttribute Comentario comentario,
+	        BindingResult result
+	) throws IOException {
+		comentario.setPostagemId(postagem);
+		comentario.setUsuarioId(usuario);
+		comentario.setPostData(LocalDate.now());
+		
+	    if (result.hasErrors()) {
+
+	        System.out.println("5 - Tem erros");
+
+	        result.getAllErrors()
+	              .forEach(System.out::println);
+
+	        return "posts";
+	    }
+	    
+	    comentarioRepository.save(comentario);
+		return "posts";
+	}
+//==================================================================================================================================
+	
+//==========================================Comando para acessar a pagina de criar Postagem=========================================
 	
 	@GetMapping("/CriarPost")
 	public String CriarPost(Model model) {
@@ -59,6 +98,10 @@ public class PostsController {
 	    model.addAttribute("postagem", new Postagem());
 	    return "criar-post";
 	}
+//==================================================================================================================================
+	
+//====================================================Comando para inserir um Postagem==============================================
+	
 	
 	@PostMapping("/CriarPost/save")
 	public String CriarPostSave(
@@ -68,7 +111,7 @@ public class PostsController {
 	        BindingResult result
 	) throws IOException {
 
-	    System.out.println("ENTROU NO MÉTODO");
+//=====================================Codigo para o usuario recuperar uma imagem de seu computador ===============================
 
 	    // Verifica se existe imagem enviada
 	    if (imagem != null && !imagem.isEmpty()) {
@@ -92,14 +135,17 @@ public class PostsController {
 
 	        System.out.println("3 - Foto salva");
 	    }
+//==================================================================================================================================
 
+//==============================================Dados que o usuario não insere=======================================================
 
 	    // Dados preenchidos automaticamente
 	    postagem.setUsuarioId(usuario);
-	    postagem.setPostData(LocalDateTime.now());
+	    postagem.setPostData(LocalDate.now());
 	    postagem.setLikes(0);
-
+//==================================================================================================================================
 	    System.out.println("4 - Antes da validação");
+//===================================================Conferindo se tem erro=========================================================
 
 
 	    if (result.hasErrors()) {
@@ -111,9 +157,11 @@ public class PostsController {
 
 	        return "criar-post";
 	    }
+//==================================================================================================================================
 
 
 	    System.out.println("6 - Antes do save");
+//==========================================================Salvando================================================================
 
 	    postsService.save(postagem);
 
@@ -121,7 +169,9 @@ public class PostsController {
 
 
 	    return "redirect:/posts/listar";
-	}			
+	}	
+//==================================================================================================================================
+	
 }
 
 

@@ -1,6 +1,7 @@
 package com.example.demo.sat.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Postagem implements Serializable{
 	
 	
 	@Column(name = "PostData", nullable = false)
-	private LocalDateTime PostData;
+	private LocalDate PostData;
 	
 	@Column(name = "Tags", nullable = true)
 	private String Tags;
@@ -67,11 +68,11 @@ public class Postagem implements Serializable{
 		Conteudo = conteudo;
 	}
 
-	public LocalDateTime getPostData() {
+	public LocalDate getPostData() {
 		return PostData;
 	}
 
-	public void setPostData(LocalDateTime postData) {
+	public void setPostData(LocalDate postData) {
 		PostData = postData;
 	}
 
