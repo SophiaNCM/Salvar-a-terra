@@ -1,21 +1,21 @@
 :root {
         --cor-de-fundo: radial-gradient(circle,rgb(81, 136, 67) 0%, rgb(136, 214, 136) 100%);
         --cor-de-fundo-card: #e5f0d0;
-    } 
+} 
    
-   body { 
+body { 
         background: var(--cor-de-fundo);
-    }
+}
 .card{
      background: var(--cor-de-fundo-card);
 }
 .card-center { 
      max-width: 820px; 
      margin: 0 auto; 
-    }
+}
 .img-preview {
      max-height: 200px; 
      object-fit: cover; 
     display: block; 
      margin-top: .5rem; 
-        }
+}

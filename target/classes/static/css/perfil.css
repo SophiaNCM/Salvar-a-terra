@@ -19,6 +19,8 @@ body {
 }
 .posts-card {
     margin-top: 24px;
-    background: var(--cor-de-fundo-card);}
+    background: var(--cor-de-fundo-card);
+}
 .list-group-item{
-    background: var(--cor-de-fundo-card);}
+    background: var(--cor-de-fundo-card);
+}

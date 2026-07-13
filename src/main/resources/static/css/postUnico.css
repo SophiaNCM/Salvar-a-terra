@@ -1,0 +1,54 @@
+
+body{
+  background: radial-gradient(circle, rgb(81, 136, 67) 0%, rgb(136, 214, 136) 100%);
+  min-height: 100vh;
+}
+
+.post-image img, .post-image > img, .card-img-top {
+  max-height: 480px;
+  object-fit: cover;
+  object-position: center;
+  /* centralizar horizontalmente e manter responsivo */
+  display: block;
+  margin: 0 auto;
+  width: auto;
+  max-width: 100%;
+}
+
+/* Fundo claro para o card */
+.card {
+  background: #e5f0d0;
+}
+
+.card-title { 
+	font-weight: 600; 
+}
+.content p { 
+	margin-bottom: 1rem; 
+}
+
+.comments .list-group-item { 
+	word-break: break-word; 
+}
+
+/* Ajustes responsivos */
+@media (max-width: 576px) {
+  .post-image img, .card-img-top { 
+	max-height: 260px; 
+	}
+}
+
+/* Avatar pequeno arredondado */
+.avatar-sm { 
+	width: 48px; height: 48px; object-fit: cover; 
+}
+
+/* Comentários: card menor */
+.comment-card { 
+	background: rgba(255,255,255,0.85); padding: 8px; border-radius: 8px; 
+}
+.comment-img { 
+	max-height: 160px; object-fit: cover; display: block; margin-top: 6px; 
+}
+
+

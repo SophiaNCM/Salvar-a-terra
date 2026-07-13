@@ -136,8 +136,7 @@ public class Usuario implements  UserDetails {
 	@Override
 	public String toString() {
 		return "Usuario [Id=" + Id + ", UsuarioNome=" + UsuarioNome + ", Senha=" + Senha + ", Email=" + Email
-				+ ", ImgUsuario=" + ImgUsuario + ", DtNascimento=" + DtNascimento + ", Descricao=" + Descricao
-				+ ", Postagem=" + Postagem + ", Comentario=" + Comentario + "]";
+				+ ", ImgUsuario=" + ImgUsuario + ", DtNascimento=" + DtNascimento + ", Descricao=" + Descricao +  "]";
 	}
 
 

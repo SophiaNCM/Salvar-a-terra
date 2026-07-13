@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,12 +65,16 @@ public class UsuarioController {
 	}
 //==================================================================================================================================================
 //================================================Adicionando a pagina de perfil====================================================================
-	@GetMapping("/perfilProprio")
-	public String perfilProprio(@AuthenticationPrincipal Usuario usuario,Model model) {
-		List<Postagem> posts = postsRepository.findByUsuarioId(usuario);
-		model.addAttribute("usuario", usuario);
+	@GetMapping("/perfil/{id}")
+	public String perfil(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario,Model model) {
+	    Usuario perfil = usuarioRepository.findById(id).orElseThrow();
+	    List<Postagem> posts = postsRepository.findByUsuarioId(perfil);
+	    boolean proprioPerfil = usuario != null && usuario.getId().equals(perfil.getId());
+	    model.addAttribute("usuarioLogado", usuario);          // usuário logado
+	    model.addAttribute("perfil", perfil);            // perfil sendo visualizado
 	    model.addAttribute("posts", posts);
-		return "perfil-proprio";
+	    model.addAttribute("proprioPerfil", proprioPerfil);
+		return "perfil";
 	}
 	
 //==================================================================================================================================================
@@ -138,7 +143,7 @@ public class UsuarioController {
 		    SecurityContextHolder.getContext().setAuthentication(novaAuth);
 
 
-		    return "redirect:/usuario/perfilProprio";
+		    return "redirect:/usuario/perfil";
 	}
 }
 

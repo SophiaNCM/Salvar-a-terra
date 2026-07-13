@@ -93,8 +93,7 @@ public class Comentario implements Serializable{
 
 		@Override
 		public String toString() {
-			return "Comentario [Id=" + Id + ", Conteudo=" + Conteudo + ", PostData=" + PostData + ", ImgURL=" + ImgURL
-					+ ", UsuarioId=" + UsuarioId + ", PostagemId=" + PostagemId + "]";
+			return "Comentario [Id=" + Id + ", Conteudo=" + Conteudo + ", PostData=" + PostData + ", ImgURL=" + ImgURL + "]";
 		}
 		
 		

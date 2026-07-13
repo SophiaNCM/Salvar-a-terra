@@ -58,8 +58,10 @@ public class SecurityConfig {
                     "/posts/listar",
                     "/posts/CriarPost",
                     "/posts/CriarPost/save",
-                    "/usuario/perfilProprio",
-                    "/usuario/editPerfil"
+                    "/posts/postIndividual/{id}",
+                    "/posts/post/{id}/comentario",
+                    "/usuario/editPerfil",
+                    "/usuario/perfil/{id}"
                 ).permitAll()
                 .anyRequest().authenticated())
 //===================================================================================================================================================

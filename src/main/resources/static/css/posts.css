@@ -6,9 +6,25 @@
  
     background: var(--cor-de-fundo);
 }
-.post-card { 
+.card-body { 
     transition: transform .12s ease; 
     background: var(--cor-de-fundo-card);
+
+	text-decoration: none;
+	
+}
+.link-post{
+	text-decoration: none;
+	color: rgb(45, 45, 45);
+}
+.link-perfil{
+	text-decoration: none; 
+	color: rgb(45, 45, 45);
+}
+.link-perfil:hover{
+	transition: 1s;
+	text-decoration: none; 
+	color: rgb(17, 113, 46);
 }
 .post-card:hover { 
     transform: translateY(-4px); 
@@ -34,7 +50,7 @@
     color: #fff;
     background-color: #d45353;
 }
-#comment:hover{
+#comentario:hover{
     color: #fff;
     background-color: #5ad479;
 }

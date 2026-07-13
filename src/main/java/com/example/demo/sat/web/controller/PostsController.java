@@ -17,9 +17,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,27 +68,42 @@ public class PostsController {
 //==================================================================================================================================
 	
 //=========================================================comentar Postagem========================================================
-	@GetMapping("/listar/comentar")
-	public String PostsComentar( @AuthenticationPrincipal Usuario usuario,
-	        @Valid @ModelAttribute Postagem postagem, @ModelAttribute Comentario comentario,
-	        BindingResult result
+	@PostMapping("/post/{postId}/comentario")
+	public String PostsComentar(
+			@PathVariable("postId") Long postId,
+	        @RequestParam(value = "imgComentario", required = false) MultipartFile imagem,
+	        @AuthenticationPrincipal Usuario usuario,
+	        @ModelAttribute Comentario comentario
 	) throws IOException {
-		comentario.setPostagemId(postagem);
-		comentario.setUsuarioId(usuario);
-		comentario.setPostData(LocalDate.now());
-		
-	    if (result.hasErrors()) {
 
-	        System.out.println("5 - Tem erros");
+	    Postagem post = postsRepository.findById(postId).orElseThrow();
 
-	        result.getAllErrors()
-	              .forEach(System.out::println);
+	    if (imagem != null && !imagem.isEmpty()) {
 
-	        return "posts";
+	        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
+
+	        Path caminho = Paths.get("src/main/resources/static/img/comentario/");
+	        Files.createDirectories(caminho);
+
+	        Files.copy(
+	                imagem.getInputStream(),
+	                caminho.resolve(nomeArquivo),
+	                StandardCopyOption.REPLACE_EXISTING
+	        );
+
+	        comentario.setImgURL("/img/comentario/" + nomeArquivo);
 	    }
+
+	    comentario.setUsuarioId(usuario);
+	    comentario.setPostagemId(post);
+	    comentario.setPostData(LocalDate.now());
 	    
+	    System.out.println("ID = " + comentario.getId());
+	    System.out.println("Conteudo = " + comentario.getConteudo());
+
 	    comentarioRepository.save(comentario);
-		return "posts";
+
+	    return "redirect:/posts/postIndividual/" + postId;
 	}
 //==================================================================================================================================
 	
@@ -171,7 +188,19 @@ public class PostsController {
 	    return "redirect:/posts/listar";
 	}	
 //==================================================================================================================================
-	
+//==========================================================Post Individual=========================================================
+		@GetMapping("/postIndividual/{id}")
+		public String postIndividual(@PathVariable("id") Long id, ModelMap model){
+			model.addAttribute("post", postsRepository.findById(id).orElse(null));
+			
+			return "postUnico";
+			}
+		
+		//@PostMapping("/posts/{id}/comentario")
+		//public String Commentar() {
+			//return ""
+		//}
+
 }
 
 
