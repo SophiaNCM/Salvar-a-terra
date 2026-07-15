@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.sat.domain.Comentario;
 import com.example.demo.sat.domain.Postagem;
@@ -196,10 +198,67 @@ public class PostsController {
 			return "postUnico";
 			}
 		
-		//@PostMapping("/posts/{id}/comentario")
-		//public String Commentar() {
-			//return ""
-		//}
+//==========================================================ADD LIKES ==================================================================
+		@PostMapping("/like/{id}")
+		public ResponseEntity<?> adicionarLikes(@PathVariable("id") Long id){
+			postsRepository.updateSomarLikes(id);
+			int likes = postsRepository.findLikesById(id);
+			return ResponseEntity.ok(likes);
+		}
+//======================================================================================================================================
+		
+		@GetMapping("/excluir/{id}")
+		public String ExcluirPost(@PathVariable("id") Long id) {
+			comentarioRepository.deleteByPostagemId(id);
+			postsRepository.deleteById(id);
+			return "redirect:/usuario/editPerfil";
+		}
+		@GetMapping("/editar/{id}")
+		public String preEditar(@PathVariable("id") Long id, ModelMap model) {
+			model.addAttribute("postagem", postsRepository.findById(id).orElseThrow());
+
+			return "criar-post";
+		}
+		
+		
+		@PostMapping("/editar")
+		public String editar(@Valid Postagem postagem,BindingResult result , RedirectAttributes attr,  
+				@RequestParam("imagem") MultipartFile imagem) throws IOException{
+			
+
+		    // Verifica se existe imagem enviada
+		    if (imagem != null && !imagem.isEmpty()) {
+
+		        System.out.println("2 - Tem foto");
+
+		        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
+
+		        Path caminho = Paths.get("src/main/resources/static/img/posts/");
+
+		        Files.createDirectories(caminho);
+
+		        Files.copy(
+		            imagem.getInputStream(),
+		            caminho.resolve(nomeArquivo),
+		            StandardCopyOption.REPLACE_EXISTING
+		        );
+
+		        // Salva apenas o caminho da imagem na entidade
+		        postagem.setImgURL("/img/posts/" + nomeArquivo);
+
+		        System.out.println("3 - Foto salva");
+		    }
+			if(result.hasErrors()) {
+				return "criar-post";
+			}
+			
+			postagem.setTitulo(postagem.getTitulo());
+			postagem.setConteudo(postagem.getConteudo());
+			postagem.setTags(postagem.getTags());
+			postsService.edit(postagem);
+			attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
+			return "redirect:/usuario/editPerfil";
+		}	
 
 }
 

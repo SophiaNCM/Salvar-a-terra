@@ -62,46 +62,23 @@
                 <h3 class="h5 mb-0">Seus posts</h3>
                 <p class="text-muted mb-0">Edite ou exclua seus posts diretamente daqui.</p>
             </div>
-            <div class="list-group list-group-flush">
+            <div class="list-group list-group-flush" th:each="post : ${posts}">
                 <div class="list-group-item">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h5 class="mb-1">Meu primeiro post</h5>
-                            <p class="mb-1 text-muted">Compartilhando novidades importantes sobre meu projeto.</p>
+                            <h5 class="mb-1"  th:text="${post.Titulo}">Meu primeiro post</h5>
+                            <p class="mb-1 text-muted" th:text="${post.Conteudo}">Compartilhando novidades importantes sobre meu projeto.</p>
                         </div>
                         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <button class="btn btn-outline-secondary btn-sm me-2">Editar</button>
-                            <button class="btn btn-outline-danger btn-sm">Excluir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h5 class="mb-1">Dicas de design</h5>
-                            <p class="mb-1 text-muted">Como cuidar da sua marca pessoal usando layout simples.</p>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <button class="btn btn-outline-secondary btn-sm me-2">Editar</button>
-                            <button class="btn btn-outline-danger btn-sm">Excluir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-group-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h5 class="mb-1">Rotina de estudos</h5>
-                            <p class="mb-1 text-muted">Meu plano para aprender novas tecnologias e organizar tarefas.</p>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <button class="btn btn-outline-secondary btn-sm me-2">Editar</button>
-                            <button class="btn btn-outline-danger btn-sm">Excluir</button>
+                            <button class="btn btn-outline-secondary btn-sm me-2"><a th:href="@{/posts/editar/{id}(id=${post.id})}">Editar</a></button>
+                            <button class="btn btn-outline-danger btn-sm"><a th:href="@{/posts/excluir/{id}(id=${post.id})}">Excluir</a></button>
+							</form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
 
     <script>
         const userNameInput = document.getElementById('userName');

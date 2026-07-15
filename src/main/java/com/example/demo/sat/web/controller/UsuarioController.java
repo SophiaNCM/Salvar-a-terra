@@ -84,7 +84,9 @@ public class UsuarioController {
 	@GetMapping("/editPerfil")
 	public String editPerfil(@AuthenticationPrincipal Usuario usuario,Model model) {
 		System.out.println("Nome do usuario" + usuario.getUsuarioNome());
+		List<Postagem> posts = postsRepository.findByUsuarioId(usuario);
 		model.addAttribute("usuario", usuario);
+		model.addAttribute("posts", posts);
 		return "editar-perfil";
 		
 	}

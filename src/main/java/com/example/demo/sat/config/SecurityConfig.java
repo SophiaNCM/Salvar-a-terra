@@ -60,6 +60,9 @@ public class SecurityConfig {
                     "/posts/CriarPost/save",
                     "/posts/postIndividual/{id}",
                     "/posts/post/{id}/comentario",
+                    "/posts/like/{id}",
+                    "/posts/editar",
+                    "/posts/editar/{id}",
                     "/usuario/editPerfil",
                     "/usuario/perfil/{id}"
                 ).permitAll()

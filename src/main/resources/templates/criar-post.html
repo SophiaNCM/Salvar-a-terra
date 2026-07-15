@@ -22,7 +22,8 @@ form.addEventListener("submit", function(e) {
         <div class="card-body p-4">
           <h1 class="h4 mb-4 text-center">Criar nova postagem</h1>
 
-          <form	th:action="@{/posts/CriarPost/save}" th:object="${postagem}" method="post" enctype="multipart/form-data" novalidate>
+          <form	th:action="${postagem.Id == null} ? @{/posts/CriarPost/save} : @{/posts/editar}" th:object="${postagem}" method="post" enctype="multipart/form-data" novalidate>
+			<input type="hidden" th:field="*{id}">
 			<input type="hidden"
 			           th:name="${_csrf.parameterName}"
 			           th:value="${_csrf.token}">
