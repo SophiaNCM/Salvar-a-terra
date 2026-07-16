@@ -23,6 +23,7 @@
                             <p class="mb-0">Descrição: <span id="previewDescription" th:text="${usuario.descricao}">Desenvolvedor web e criador de conteúdo.</span></p>
                         </div>
                         <form method="post"  enctype="multipart/form-data" th:action="@{/usuario/editPerfil/save}" th:object="${usuario}">
+							<input type="hidden" th:field="*{id}">
 							<div class="container">
 								<div class="row">
 								<div class="col align-self-start">

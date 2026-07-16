@@ -99,29 +99,30 @@ public class UsuarioController {
             @Valid Usuario usuarioForm, BindingResult result) throws IOException {
 		//Precisamos coletar o authentication do perfil por causa do security e com isso coletamos o email
 		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		 //==============================================================================================
+		 
 		    String email = auth.getName();
 		    //Procurando o email no banco de dados
 		    Usuario usuario = usuarioRepository.findByEmail(email);
-
+		    //======================================================
+		    
 		    // Atualiza somente se o nome foi informado
 		    if (usuarioForm.getUsuarioNome() != null &&
 		        !usuarioForm.getUsuarioNome().trim().isEmpty()) {
-
 		        usuario.setUsuarioNome(usuarioForm.getUsuarioNome());
 		    }
-
+		    //==========================================================
+		    
 		    // Atualiza somente se a descrição foi informada
 		    if (usuarioForm.getDescricao() != null &&
 		        !usuarioForm.getDescricao().trim().isEmpty()) {
-
 		        usuario.setDescricao(usuarioForm.getDescricao());
 		    }
-
-		    // Atualiza somente se uma nova foto foi enviada, como a imagem não é um link e sim um update do computador para o site, precisamos tranformar em um link
+		    //====================================================
+		    
+		    // Atualiza somente se uma nova foto foi enviada, como a imagem não é um link e sim um update do computador para o site, precisamos transformar em um link
 		    if (foto != null && !foto.isEmpty()) {
-
 		        String nomeArquivo = UUID.randomUUID() + "_" + foto.getOriginalFilename();
-
 		        Path caminho = Paths.get("src/main/resources/static/img/perfis/");
 		        Files.createDirectories(caminho);
 
@@ -130,22 +131,23 @@ public class UsuarioController {
 		                caminho.resolve(nomeArquivo),
 		                StandardCopyOption.REPLACE_EXISTING
 		        );
-
 		        usuario.setImgUsuario("/img/perfis/" + nomeArquivo);
 		    }
-
+		    //==========================================================================================================================================================
+		    
+		    //confirmando a edição
 		    service.edit(usuario);
+		    //====================
 		    
 		    // Atualiza o usuário da sessão
-		    Authentication novaAuth = new UsernamePasswordAuthenticationToken(
-		            usuario,
-		            auth.getCredentials(),
-		            usuario.getAuthorities());
+		    Authentication novaAuth = new UsernamePasswordAuthenticationToken(usuario, auth.getCredentials(), usuario.getAuthorities());
 
 		    SecurityContextHolder.getContext().setAuthentication(novaAuth);
-
-
-		    return "redirect:/usuario/perfil";
+		    //=============================================================================================================================
+		    
+		    //redirecionando para o perfil do usuario logado 
+		    return "redirect:/usuario/perfil/" + usuario.getId();
+		    //=======================================================
 	}
 }
 

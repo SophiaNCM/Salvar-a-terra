@@ -32,27 +32,27 @@ public class UsuarioService implements UserDetailsService{
 	@Override @Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String Email) throws UsernameNotFoundException {
 
-	    System.out.println("Email recebido: [" + Email + "]");
-
 	    Usuario usuario = buscarPorEmail(Email);
-
-	    System.out.println("Usuario encontrado: " + usuario);
-
 	    if (usuario == null) {
 	        throw new UsernameNotFoundException("Usuário não encontrado");
-	    }
+	    	}
 		return usuario;
 		}
-	
+//==========================================================================================================================================================
+//============================================================= Salvando e criptografando a senha===========================================================
 	 @Transactional
 	public void save(@Valid Usuario usuario) {
 		String crypt = new BCryptPasswordEncoder().encode(usuario.getPassword());
 		usuario.setPassword(crypt);
 		repository.save(usuario);
 	}
+//===========================================================================================================================================================
+	 
+//=================================================================metodo de editar o perfil=================================================================
 	 @Transactional
 	public void edit(@Valid Usuario usuario) {
 		repository.save(usuario);
 	 }
+//============================================================================================================================================================
 }
 

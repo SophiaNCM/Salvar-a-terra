@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.sat.domain.Comentario;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, Long>{
+	//Query de deletar comentario
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM Comentario c WHERE c.PostagemId.Id = :Id")

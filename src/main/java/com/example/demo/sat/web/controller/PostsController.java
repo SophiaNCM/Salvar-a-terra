@@ -77,34 +77,29 @@ public class PostsController {
 	        @AuthenticationPrincipal Usuario usuario,
 	        @ModelAttribute Comentario comentario
 	) throws IOException {
-
+		//Buscando o id do post que ser comentado
 	    Postagem post = postsRepository.findById(postId).orElseThrow();
-
+	    //================================================================
+	    //Inserindo a img
 	    if (imagem != null && !imagem.isEmpty()) {
-
 	        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-
 	        Path caminho = Paths.get("src/main/resources/static/img/comentario/");
 	        Files.createDirectories(caminho);
-
 	        Files.copy(
 	                imagem.getInputStream(),
 	                caminho.resolve(nomeArquivo),
 	                StandardCopyOption.REPLACE_EXISTING
 	        );
-
 	        comentario.setImgURL("/img/comentario/" + nomeArquivo);
 	    }
-
+	    //===================================================================
+	    //Inserindo o dados que o usuario não tem permissão
 	    comentario.setUsuarioId(usuario);
 	    comentario.setPostagemId(post);
 	    comentario.setPostData(LocalDate.now());
-	    
-	    System.out.println("ID = " + comentario.getId());
-	    System.out.println("Conteudo = " + comentario.getConteudo());
-
+	    //=================================================================
 	    comentarioRepository.save(comentario);
-
+	    // redirecionando para a pagina do post
 	    return "redirect:/posts/postIndividual/" + postId;
 	}
 //==================================================================================================================================
@@ -134,25 +129,17 @@ public class PostsController {
 
 	    // Verifica se existe imagem enviada
 	    if (imagem != null && !imagem.isEmpty()) {
-
-	        System.out.println("2 - Tem foto");
-
 	        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-
 	        Path caminho = Paths.get("src/main/resources/static/img/posts/");
-
 	        Files.createDirectories(caminho);
-
 	        Files.copy(
 	            imagem.getInputStream(),
 	            caminho.resolve(nomeArquivo),
 	            StandardCopyOption.REPLACE_EXISTING
 	        );
-
 	        // Salva apenas o caminho da imagem na entidade
 	        postagem.setImgURL("/img/posts/" + nomeArquivo);
 
-	        System.out.println("3 - Foto salva");
 	    }
 //==================================================================================================================================
 
@@ -163,29 +150,19 @@ public class PostsController {
 	    postagem.setPostData(LocalDate.now());
 	    postagem.setLikes(0);
 //==================================================================================================================================
-	    System.out.println("4 - Antes da validação");
+
 //===================================================Conferindo se tem erro=========================================================
 
 
 	    if (result.hasErrors()) {
-
-	        System.out.println("5 - Tem erros");
-
-	        result.getAllErrors()
-	              .forEach(System.out::println);
-
+	        result.getAllErrors().forEach(System.out::println);
 	        return "criar-post";
 	    }
 //==================================================================================================================================
 
-
-	    System.out.println("6 - Antes do save");
 //==========================================================Salvando================================================================
 
 	    postsService.save(postagem);
-
-	    System.out.println("7 - Depois do save");
-
 
 	    return "redirect:/posts/listar";
 	}	
@@ -206,65 +183,68 @@ public class PostsController {
 			return ResponseEntity.ok(likes);
 		}
 //======================================================================================================================================
-		
+//========================Metodo de deletar o post pelo id(os comentarios desse post são deletados juntos)==============================
 		@GetMapping("/excluir/{id}")
 		public String ExcluirPost(@PathVariable("id") Long id) {
 			comentarioRepository.deleteByPostagemId(id);
 			postsRepository.deleteById(id);
 			return "redirect:/usuario/editPerfil";
 		}
+//=======================================================================================================================================
+//=============================Acessando a pagina de edição(mesma pagina usada para criar post)==========================================
 		@GetMapping("/editar/{id}")
 		public String preEditar(@PathVariable("id") Long id, ModelMap model) {
 			model.addAttribute("postagem", postsRepository.findById(id).orElseThrow());
 
 			return "criar-post";
 		}
-		
-		
+//=======================================================================================================================================
+//====================================================Metodo de editar post escolhido ===================================================
 		@PostMapping("/editar")
 		public String editar(@Valid Postagem postagem,BindingResult result , RedirectAttributes attr,  
 				@RequestParam("imagem") MultipartFile imagem) throws IOException{
+			//Capturando o post escolhid0
 				Postagem postagemEdit = postsRepository.findById(postagem.getId()).orElseThrow();
-
+			//===================================================================================
 		    // Verifica se existe imagem enviada
 		    if (imagem != null && !imagem.isEmpty()) {
-
-		        System.out.println("2 - Tem foto");
-
 		        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-
 		        Path caminho = Paths.get("src/main/resources/static/img/posts/");
-
 		        Files.createDirectories(caminho);
-
 		        Files.copy(
 		            imagem.getInputStream(),
 		            caminho.resolve(nomeArquivo),
 		            StandardCopyOption.REPLACE_EXISTING
 		        );
-
 		        // Salva apenas o caminho da imagem na entidade
 		        postagemEdit.setImgURL("/img/posts/" + nomeArquivo);
 
-		        System.out.println("3 - Foto salva");
+		    //===============================================================================
+		    // Verifidando erro
 		    }
 			if(result.hasErrors()) {
 				return "criar-post";
 			}
-			
+			//===============================================================================
+			//Informando os dados que podem ser mudados
 			postagemEdit.setTitulo(postagem.getTitulo());
 			postagemEdit.setConteudo(postagem.getConteudo());
 			postagemEdit.setTags(postagem.getTags());
 			postsService.edit(postagemEdit);
-			attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
+			//================================================================================
+			//Informando que a edição foi um sucesso
+			attr.addFlashAttribute("success", "Post editado com sucesso.");
 			return "redirect:/usuario/editPerfil";
+			//================================================================================
 		}	
+//=============================================================Metodo de busca=============================================================
 		@GetMapping("/buscar/post")
 		public String getPorNome(@RequestParam("Pesquisa") String pesquisa,@AuthenticationPrincipal Usuario usuario, ModelMap model) {		
 			model.addAttribute("posts", postsRepository.buscarPorTituloOuConteudo(pesquisa));
 			model.addAttribute("usuario", usuario);
 			return "posts";
 		}
+//==========================================================================================================================================
 
 }
 

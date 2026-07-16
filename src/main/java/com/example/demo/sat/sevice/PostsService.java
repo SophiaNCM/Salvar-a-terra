@@ -19,6 +19,7 @@ public class PostsService{
 	public void save(Postagem posts) {
 		repository.save(posts);
 	 }
+	// tem tem o mesmo metodo do repositorio, mas escolhi diferenciar 
 	 @Transactional
 	public void edit(Postagem posts) {
 		repository.save(posts);

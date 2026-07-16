@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.demo.sat.domain.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+	//Busca do usuario por email
 	@Query("select u from Usuario u where u.Email like :Email")
 	Usuario findByEmail(@Param("Email") String Email);
 	
