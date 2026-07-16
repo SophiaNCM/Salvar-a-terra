@@ -28,4 +28,7 @@ public interface PostsRepository extends JpaRepository<Postagem, Long>{
 		@Query("select p.Likes from Postagem p where p.Id = :Id")
 		int findLikesById(@Param("Id") Long Id);
 		
+		@Query("Select p from Postagem p where p.Titulo like %:Pesquisa% or p.Conteudo like %:Pesquisa% or p.Tags like %:Pesquisa%")
+		List<Postagem> buscarPorTituloOuConteudo(@Param("Pesquisa") String Pesquisa);
+		
 }

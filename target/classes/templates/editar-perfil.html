@@ -27,23 +27,23 @@
 								<div class="row">
 								<div class="col align-self-start">
 										<div >
-										<img id="profileImage"  th:src="${usuario.imgUsuario != null ? usuario.imgUsuario  : 'https://via.placeholder.com/130'}" alt="Foto de perfil" class="profile-avatar mb-3">
+										<img th:src="${usuario.imgUsuario != null ? usuario.imgUsuario  : 'https://via.placeholder.com/130'}" alt="Foto de perfil" class="profile-avatar mb-3">
 										<div>
 										    <label class="btn btn-outline-primary btn-sm mb-0">
 										        Alterar foto
-										        <input id="photoInput" name="imgUsuario" type="file" accept="image/*" class="d-none">
+										        <input name="imgUsuario" type="file" accept="image/*" class="d-none">
 										    </label>
 										</div>
 									</div>
 								</div>
 								<div class="col-8 align-self-end">
 		                            <div >
-		                                <label for="userName" class="form-label">Nome</label>
-		                                <input type="text" class="form-control" id="userName" placeholder="Digite seu nome"  th:field="*{usuarioNome}">
+		                                <label for="nome" class="form-label">Nome</label>
+		                                <input type="text" class="form-control" placeholder="Digite seu nome"  th:field="*{usuarioNome}">
 		                            </div>
 			                            <div class="">
-			                                <label for="profileDescription" class="form-label">Descrição do perfil</label>
-			                                <textarea th:field="*{descricao}"class="form-control" id="profileDescription" rows="3" placeholder="Digite uma descrição breve"></textarea>
+			                                <label for="descrição" class="form-label">Descrição do perfil</label>
+			                                <textarea th:field="*{descricao}"class="form-control" rows="3" placeholder="Digite uma descrição breve"></textarea>
 			                            </div>
 										<button type="submit" class="btn btn-primary">Salvar alterações</button>
 									</div>
@@ -70,8 +70,8 @@
                             <p class="mb-1 text-muted" th:text="${post.Conteudo}">Compartilhando novidades importantes sobre meu projeto.</p>
                         </div>
                         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <button class="btn btn-outline-secondary btn-sm me-2"><a th:href="@{/posts/editar/{id}(id=${post.id})}">Editar</a></button>
-                            <button class="btn btn-outline-danger btn-sm"><a th:href="@{/posts/excluir/{id}(id=${post.id})}">Excluir</a></button>
+                            <button class="btn btn-outline-secondary btn-sm me-2"><a th:href="@{/posts/editar/{id}(id=${post.id})}" style="text-decoration: none; color: black;">Editar</a></button>
+                            <button class="btn btn-outline-danger btn-sm"><a th:href="@{/posts/excluir/{id}(id=${post.id})}" style="text-decoration: none; color: black;">Excluir</a></button>
 							</form>
                         </div>
                     </div>

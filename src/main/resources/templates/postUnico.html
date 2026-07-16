@@ -20,11 +20,16 @@
 				<article class="card shadow-sm">
 					<div class="card-body">
 						<div class="d-flex align-items-center mb-3">
-							<img th:src="${post.UsuarioId.ImgUsuario} ?: 'https://i.pravatar.cc/80?img=3'" alt="Avatar" class="rounded-circle me-3 avatar-sm" />
+							<a th:href="@{/usuario/perfil/{id}(id=${post.UsuarioId.Id})}" class="link-perfil">
+								<img th:src="${post.UsuarioId.ImgUsuario} ?: 'https://i.pravatar.cc/80?img=3'" alt="Avatar" class="rounded-circle me-3 avatar-sm" />
+							</a>
 							<div>
-								<div class="fw-semibold" th:text="${post.UsuarioId.UsuarioNome}">Autor</div>
-								<small class="text-muted" th:text="${post.PostData}">DATA</small>
+								<a th:href="@{/usuario/perfil/{id}(id=${post.UsuarioId.Id})}" class="link-perfil">
+									<div class="fw-semibold" th:text="${post.UsuarioId.UsuarioNome}">Usuario</div>
+									<small class="text-muted" th:text="${post.PostData}">data de postagem</small>
+								</a>
 							</div>
+							</a>
 						</div>
 
 						<h1 class="card-title h3 mb-2" th:text="${post.Titulo}">Título do Post</h1>
@@ -33,8 +38,8 @@
 						<div class="card-text mb-3" th:utext="${post.Conteudo}">
 						</div>
 
-						<div class="post-image mb-3">
-							<img th:src="${post.ImgURL} ?: 'https://picsum.photos/800/400?random=3'" class="card-img-top img-fluid w-25" alt="Imagem do post" />
+						<div class="post-image mb-3" th:if="${post.ImgURL != null}">
+							<img th:src="${post.ImgURL}" class="card-img-top img-fluid w-25" alt="Imagem do post" />
 						</div>
 
 						<div class="d-flex align-items-center gap-2 mb-3">
@@ -74,8 +79,10 @@
 									</div>
 								</div>
 								<div class="col-12 text-end">
-									<button type="submit" class="btn btn-primary">Enviar comentário</button>
+									<a th:href="@{/posts/listar}" class="btn btn-secondary btn-sm">Voltar aos posts</a>
+									<button type="submit" class="btn btn-success">Enviar comentário</button>
 								</div>
+								
 							</form>
 						</section>
 					</div>

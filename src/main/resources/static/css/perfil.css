@@ -24,3 +24,7 @@ body {
 .list-group-item{
     background: var(--cor-de-fundo-card);
 }
+.link-post{
+	text-decoration: none;
+	color: rgb(45, 45, 45);
+}

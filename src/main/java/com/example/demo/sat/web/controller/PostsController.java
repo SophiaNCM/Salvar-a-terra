@@ -224,7 +224,7 @@ public class PostsController {
 		@PostMapping("/editar")
 		public String editar(@Valid Postagem postagem,BindingResult result , RedirectAttributes attr,  
 				@RequestParam("imagem") MultipartFile imagem) throws IOException{
-			
+				Postagem postagemEdit = postsRepository.findById(postagem.getId()).orElseThrow();
 
 		    // Verifica se existe imagem enviada
 		    if (imagem != null && !imagem.isEmpty()) {
@@ -244,7 +244,7 @@ public class PostsController {
 		        );
 
 		        // Salva apenas o caminho da imagem na entidade
-		        postagem.setImgURL("/img/posts/" + nomeArquivo);
+		        postagemEdit.setImgURL("/img/posts/" + nomeArquivo);
 
 		        System.out.println("3 - Foto salva");
 		    }
@@ -252,13 +252,19 @@ public class PostsController {
 				return "criar-post";
 			}
 			
-			postagem.setTitulo(postagem.getTitulo());
-			postagem.setConteudo(postagem.getConteudo());
-			postagem.setTags(postagem.getTags());
-			postsService.edit(postagem);
+			postagemEdit.setTitulo(postagem.getTitulo());
+			postagemEdit.setConteudo(postagem.getConteudo());
+			postagemEdit.setTags(postagem.getTags());
+			postsService.edit(postagemEdit);
 			attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
 			return "redirect:/usuario/editPerfil";
 		}	
+		@GetMapping("/buscar/post")
+		public String getPorNome(@RequestParam("Pesquisa") String pesquisa,@AuthenticationPrincipal Usuario usuario, ModelMap model) {		
+			model.addAttribute("posts", postsRepository.buscarPorTituloOuConteudo(pesquisa));
+			model.addAttribute("usuario", usuario);
+			return "posts";
+		}
 
 }
 

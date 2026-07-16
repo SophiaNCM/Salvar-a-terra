@@ -50,5 +50,14 @@ body{
 .comment-img { 
 	max-height: 160px; object-fit: cover; display: block; margin-top: 6px; 
 }
-
+.link-perfil{
+	text-decoration: none; 
+	color: rgb(45, 45, 45);
+	
+}
+.link-perfil:hover{
+	transition: 1s;
+	text-decoration: none; 
+	color: rgb(17, 113, 46);
+}
 
