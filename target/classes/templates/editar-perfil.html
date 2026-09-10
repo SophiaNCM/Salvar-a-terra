@@ -101,9 +101,9 @@
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = () => {
-                profileImage.src = reader.result;
-            };
+			reader.onload = function(e) {
+			    profileImage.src = e.target.result;
+			};
             reader.readAsDataURL(file);
         });
     </script>
