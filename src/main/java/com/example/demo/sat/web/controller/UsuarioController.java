@@ -33,6 +33,7 @@ import com.example.demo.sat.repository.UsuarioRepository;
 import com.example.demo.sat.sevice.UsuarioService;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 @RequestMapping("/usuario")
@@ -47,6 +48,9 @@ public class UsuarioController {
 	public Postagem postagem;
 	@Autowired
 	public PostsRepository postsRepository;
+	
+	@Value("${app.upload-dir}")
+	private String uploadDir;
 	@GetMapping("/registro")
 	public String registro(Model model) {
 		model.addAttribute("usuario", new Usuario());
@@ -122,16 +126,22 @@ public class UsuarioController {
 		    
 		    // Atualiza somente se uma nova foto foi enviada, como a imagem não é um link e sim um update do computador para o site, precisamos transformar em um link
 		    if (foto != null && !foto.isEmpty()) {
-		        String nomeArquivo = UUID.randomUUID() + "_" + foto.getOriginalFilename();
-		        Path caminho = Paths.get("src/main/resources/static/img/perfis/");
+		        String nomeOriginal = foto.getOriginalFilename();
+		        String extensao = "";
+		        if (nomeOriginal != null && nomeOriginal.contains(".")) {
+		            extensao = nomeOriginal.substring(
+		                    nomeOriginal.lastIndexOf(".")
+		            );
+		        }
+		        String nomeArquivo = UUID.randomUUID() + extensao;
+		        Path caminho = Paths.get(uploadDir, "perfis");
 		        Files.createDirectories(caminho);
-
 		        Files.copy(
 		                foto.getInputStream(),
 		                caminho.resolve(nomeArquivo),
 		                StandardCopyOption.REPLACE_EXISTING
 		        );
-		        usuario.setImgUsuario("/img/perfis/" + nomeArquivo);
+		        usuario.setImgUsuario("/uploads/perfis/" + nomeArquivo);
 		    }
 		    //==========================================================================================================================================================
 		    

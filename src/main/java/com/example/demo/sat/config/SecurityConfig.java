@@ -65,7 +65,8 @@ public class SecurityConfig {
                     "/posts/editar",
                     "/posts/editar/{id}",
                     "/usuario/editPerfil",
-                    "/usuario/perfil/{id}"
+                    "/usuario/perfil/{id}",
+                    "/uploads/**"
                 ).permitAll()
                 .anyRequest().authenticated())
 //===================================================================================================================================================
