@@ -122,7 +122,7 @@ public class PostsController {
 	
 	@PostMapping("/CriarPost/save")
 	public String CriarPostSave(
-	        @RequestParam("imagem") MultipartFile imagem,
+	        @RequestParam(value ="imagem", required = false) MultipartFile imagem,
 	        @AuthenticationPrincipal Usuario usuario,
 	        @Valid @ModelAttribute Postagem postagem,
 	        BindingResult result
@@ -208,7 +208,7 @@ public class PostsController {
 //====================================================Metodo de editar post escolhido ===================================================
 		@PostMapping("/editar")
 		public String editar(@Valid Postagem postagem,BindingResult result , RedirectAttributes attr,  
-				@RequestParam("imagem") MultipartFile imagem) throws IOException{
+				@RequestParam(value ="imagem", required = false) MultipartFile imagem) throws IOException{
 			//Capturando o post escolhid0
 				Postagem postagemEdit = postsRepository.findById(postagem.getId()).orElseThrow();
 			//===================================================================================
