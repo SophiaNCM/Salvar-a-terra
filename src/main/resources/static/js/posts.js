@@ -1,111 +1,59 @@
-document.addEventListener("DOMContentLoaded", function () {
+const comentarioBtn = document.getElementById('comentario');
+const comentarioCard = document.getElementById('comentario-card');
+const cancelarBtn = document.getElementById('cancelar');
+const enviarBtn = document.getElementById('enviar');
+const conteudoTxt = document.getElementById('Conteudo');
+const ComentarioImgInput = document.getElementById('imgComentario');
+const divImgPreview = document.getElementById('comentarioImgPreview');
+const ImgPreview = document.querySelector('#divImgPreview img');
 
-    // ==========================================
-    // BOTÃO "COMENTAR"
-    // ==========================================
+const resetCommentForm = () => {
+     conteudoTxt.value = '';
+     ComentarioImgInput.value = '';
+     divImgPreview.classList.add('d-none');
+     ImgPreview.src = '';
+   };
 
-    const comentarioBotoes =
-        document.querySelectorAll(".comentario-btn");
+   ComentarioImgInput.addEventListener('change', () => {
+     const file = ComentarioImgInput.files[0];
+     if (!file) {
+       divImgPreview.classList.add('d-none');
+       ImgPreview.src = '';
+       return;
+     }
 
-    comentarioBotoes.forEach(function (botao) {
+     const reader = new FileReader();
+     reader.onload = (event) => {
+       ImgPreview.src = event.target.result;
+       divImgPreview.classList.remove('d-none');
+     };
+     reader.readAsDataURL(file);
+   });
 
-        botao.addEventListener("click", function () {
+   comentarioBtn.addEventListener('click', (event) => {
+     event.preventDefault();
+     comentarioCard.classList.toggle('d-none');
+     resetCommentForm();
+     conteudoTxt.focus();
+   });
 
-            const postId = this.getAttribute("data-post-id");
+   cancelarBtn.addEventListener('click', () => {
+     comentarioCard.classList.add('d-none');
+     resetCommentForm();
+   });
 
-            const comentarioCard =
-                document.getElementById("comentario-card-" + postId);
+   enviarBtn.addEventListener('click', () => {
+     const hasText = conteudoTxt.value.trim();
+     const hasImage = ComentarioImgInput.files.length > 0;
 
-            if (comentarioCard) {
-                comentarioCard.classList.toggle("d-none");
-            }
+     if (!hasText && !hasImage) {
+       conteudoTxt.focus();
+       return;
+     }
 
-        });
-
-    });
-
-
-    // ==========================================
-    // BOTÃO "CANCELAR"
-    // ==========================================
-
-    const cancelarBotoes =
-        document.querySelectorAll(".cancelar-comentario");
-
-    cancelarBotoes.forEach(function (botao) {
-
-        botao.addEventListener("click", function () {
-
-            const postId = this.getAttribute("data-post-id");
-
-            const comentarioCard =
-                document.getElementById("comentario-card-" + postId);
-
-            if (comentarioCard) {
-                comentarioCard.classList.add("d-none");
-            }
-
-        });
-
-    });
-
-
-    // ==========================================
-    // PREVISUALIZAÇÃO DA IMAGEM DO COMENTÁRIO
-    // ==========================================
-
-    const formularios =
-        document.querySelectorAll(".comentario-form");
-
-    formularios.forEach(function (form) {
-
-        const imagemInput =
-            form.querySelector(".img-comentario");
-
-        const previewDiv =
-            form.querySelector(".comentario-img-preview");
-
-        const previewImg =
-            form.querySelector(".comentario-img-preview img");
-
-
-        if (!imagemInput || !previewDiv || !previewImg) {
-            return;
-        }
-
-
-        imagemInput.addEventListener("change", function () {
-
-            const file = this.files[0];
-
-
-            // Nenhuma imagem selecionada
-            if (!file) {
-
-                previewDiv.classList.add("d-none");
-                previewImg.src = "";
-
-                return;
-            }
-
-
-            // Lê a imagem
-            const reader = new FileReader();
-
-
-            reader.onload = function (event) {
-
-                previewImg.src = event.target.result;
-
-                previewDiv.classList.remove("d-none");
-
-            };
-
-
-            reader.readAsDataURL(file);
-
-        });
-
-    });
-
-});
+     const imageName = hasImage ? ComentarioImgInput.files[0].name : '';
+     const message = hasText ? `Comentário enviado: ${conteudoTxt.value.trim()}` : 'Comentário enviado com foto';
+     alert(imageName ? `${message} (${imageName})` : message);
+     resetCommentForm();
+     comentarioCard.classList.add('d-none');
+   });

@@ -73,43 +73,25 @@
 	              </div>
 	            </div>
 	            <div class="card mt-3 d-none" id="comentario-card">
-					<div class="card mt-3 d-none"
-					     th:id="'comentario-card-' + ${post.id}">
-					    <div class="card-body">
-					        <form class="comentario-form"
-					              th:action="@{/posts/post/{postId}/comentario(postId=${post.id})}"
-					              th:object="${comentario}"
-					              method="post"
-					              enctype="multipart/form-data">
-					            <h6>Escrever comentário</h6>
-					            <textarea
-					                class="form-control"
-					                name="Conteudo"
-					                placeholder="Escreva seu comentário..."></textarea>
-					            <input
-					                type="file"
-					                class="form-control img-comentario mt-2"
-					                name="imgComentario"
-					                accept="image/*">
-					            <div class="comentario-img-preview d-none mt-2">
-					                <img src=""
-					                     class="img-fluid"
-					                     style="max-width: 200px;">
-					            </div>
-					            <div class="mt-2">
-					                <button type="button"
-					                        class="btn btn-secondary btn-sm cancelar-comentario"
-					                        th:data-post-id="${post.id}">
-					                    Cancelar
-					                </button>
-					                <button type="submit"
-					                        class="btn btn-primary btn-sm">
-					                    Enviar comentário
-					                </button>
-					            </div>
-					        </form>
-					    </div>
-					</div>
+	              <div class="card-body">
+					<form th:action="@{/posts/post/{postId}/comentario(postId=${post.id})}" th:object="${comentario}" method="post" enctype="multipart/form-data">
+		                <h6 class="card-title mb-3">Escrever comentário</h6>
+		                <div class="mb-3">
+		                  <textarea class="form-control" id="Conteudo" name="Conteudo" rows="4" placeholder="Escreva seu comentário..."></textarea>
+		                </div>
+						<div class="mb-3">
+						   <label for="comentario-img" class="form-label small mb-2">Foto do comentário (opcional)</label>
+						   <input class="form-control form-control-sm" type="file" id="imgComentario" name="imgComentario" accept="image/*">
+						   <div id="comentarioImgPreview" class="mt-2 d-none">
+						   		<img src="" alt="Pré-visualização da foto do comentário" class="img-fluid rounded" style="max-height: 140px; object-fit: cover;">
+						</div>
+						</div>
+		                <div class="d-flex justify-content-end gap-2">
+		                  <button class="btn btn-secondary btn-sm" type="button" id="cancelar">Cancelar</button>
+		                  <button class="btn btn-primary btn-sm" type="submit" id="enviar">Enviar comentário</button>
+		                </div>
+					</form>	
+	              </div>
 	            </div>
 	          </div>
 	        </div>
