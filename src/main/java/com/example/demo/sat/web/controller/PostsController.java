@@ -40,7 +40,7 @@ import com.example.demo.sat.sevice.UsuarioService;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import jakarta.validation.Valid;
-
+import org.springframework.beans.factory.annotation.Value;
 import com.example.demo.sat.sevice.PostsService;
 
 @Controller
@@ -57,6 +57,9 @@ public class PostsController {
 	
 	@Autowired
 	private ComentarioRepository comentarioRepository;
+	
+	@Value("${app.upload-dir}")
+	private String uploadDir;
 	
 	
 	@GetMapping("/listar")
@@ -128,19 +131,22 @@ public class PostsController {
 //=====================================Codigo para o usuario recuperar uma imagem de seu computador ===============================
 
 	    // Verifica se existe imagem enviada
-	    if (imagem != null && !imagem.isEmpty()) {
-	        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-	        Path caminho = Paths.get("src/main/resources/static/img/posts/");
-	        Files.createDirectories(caminho);
-	        Files.copy(
-	            imagem.getInputStream(),
-	            caminho.resolve(nomeArquivo),
-	            StandardCopyOption.REPLACE_EXISTING
-	        );
-	        // Salva apenas o caminho da imagem na entidade
-	        postagem.setImgURL("/img/posts/" + nomeArquivo);
-
-	    }
+		if (imagem != null && !imagem.isEmpty()) {
+		    String nomeOriginal = imagem.getOriginalFilename();
+		    String extensao = "";
+		    if (nomeOriginal != null && nomeOriginal.contains(".")) {
+		        extensao = nomeOriginal.substring(nomeOriginal.lastIndexOf("."));
+		    }
+		    String nomeArquivo = UUID.randomUUID() + extensao;
+		    Path caminho = Paths.get(uploadDir, "posts");
+		    Files.createDirectories(caminho);
+		    Files.copy(
+		        imagem.getInputStream(),
+		        caminho.resolve(nomeArquivo),
+		        StandardCopyOption.REPLACE_EXISTING
+		    );
+		    postagem.setImgURL("/uploads/posts/" + nomeArquivo);
+		}
 //==================================================================================================================================
 
 //==============================================Dados que o usuario não insere=======================================================
@@ -207,17 +213,21 @@ public class PostsController {
 				Postagem postagemEdit = postsRepository.findById(postagem.getId()).orElseThrow();
 			//===================================================================================
 		    // Verifica se existe imagem enviada
-		    if (imagem != null && !imagem.isEmpty()) {
-		        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-		        Path caminho = Paths.get("src/main/resources/static/img/posts/");
-		        Files.createDirectories(caminho);
-		        Files.copy(
-		            imagem.getInputStream(),
-		            caminho.resolve(nomeArquivo),
-		            StandardCopyOption.REPLACE_EXISTING
-		        );
-		        // Salva apenas o caminho da imagem na entidade
-		        postagemEdit.setImgURL("/img/posts/" + nomeArquivo);
+				if (imagem != null && !imagem.isEmpty()) {
+				    String nomeOriginal = imagem.getOriginalFilename();
+				    String extensao = "";
+				    if (nomeOriginal != null && nomeOriginal.contains(".")) {
+				        extensao = nomeOriginal.substring(nomeOriginal.lastIndexOf("."));
+				    }
+				    String nomeArquivo = UUID.randomUUID() + extensao;
+				    Path caminho = Paths.get(uploadDir, "posts");
+				    Files.createDirectories(caminho);
+				    Files.copy(
+				        imagem.getInputStream(),
+				        caminho.resolve(nomeArquivo),
+				        StandardCopyOption.REPLACE_EXISTING
+				    );
+				    postagemEdit.setImgURL("/uploads/posts/" + nomeArquivo);
 
 		    //===============================================================================
 		    // Verifidando erro
