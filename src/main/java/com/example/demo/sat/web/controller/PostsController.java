@@ -85,15 +85,29 @@ public class PostsController {
 	    //================================================================
 	    //Inserindo a img
 	    if (imagem != null && !imagem.isEmpty()) {
-	        String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-	        Path caminho = Paths.get("src/main/resources/static/img/comentario/");
+	        String nomeOriginal = imagem.getOriginalFilename();
+	        String extensao = "";
+	        if (nomeOriginal != null && nomeOriginal.contains(".")) {
+	            extensao = nomeOriginal.substring(
+	                    nomeOriginal.lastIndexOf(".")
+	            );
+	        }
+	        // Nome único para evitar conflito entre imagens
+	        String nomeArquivo = UUID.randomUUID() + extensao;
+	        // Pasta dentro do Volume do Railway
+	        Path caminho = Paths.get(uploadDir, "comentarios");
+	        // Cria a pasta caso ainda não exista
 	        Files.createDirectories(caminho);
+	        // Salva a imagem
 	        Files.copy(
 	                imagem.getInputStream(),
 	                caminho.resolve(nomeArquivo),
 	                StandardCopyOption.REPLACE_EXISTING
 	        );
-	        comentario.setImgURL("/img/comentario/" + nomeArquivo);
+	        // Caminho que será salvo no banco
+	        comentario.setImgURL(
+	                "/uploads/comentarios/" + nomeArquivo
+	        );
 	    }
 	    //===================================================================
 	    //Inserindo o dados que o usuario não tem permissão

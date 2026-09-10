@@ -24,7 +24,7 @@ public class Comentario implements Serializable{
 		
 		
 		@NotNull(message= "O post precisa de um conteudo")
-		@Column(name = "Conteudo", nullable = false)
+		@Column(name = "Conteudo", nullable = false, length = 10000)
 		private String Conteudo;
 		
 		
