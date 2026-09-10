@@ -1,59 +1,99 @@
-const comentarioBtn = document.getElementById('comentario');
-const comentarioCard = document.getElementById('comentario-card');
-const cancelarBtn = document.getElementById('cancelar');
-const enviarBtn = document.getElementById('enviar');
-const conteudoTxt = document.getElementById('Conteudo');
-const ComentarioImgInput = document.getElementById('imgComentario');
-const divImgPreview = document.getElementById('comentarioImgPreview');
-const ImgPreview = document.querySelector('#divImgPreview img');
+document.addEventListener("DOMContentLoaded", function () {
 
-const resetCommentForm = () => {
-     conteudoTxt.value = '';
-     ComentarioImgInput.value = '';
-     divImgPreview.classList.add('d-none');
-     ImgPreview.src = '';
-   };
+    // ==============================
+    // BOTÕES "COMENTAR"
+    // ==============================
 
-   ComentarioImgInput.addEventListener('change', () => {
-     const file = ComentarioImgInput.files[0];
-     if (!file) {
-       divImgPreview.classList.add('d-none');
-       ImgPreview.src = '';
-       return;
-     }
+    const comentarioBtns = document.querySelectorAll("#comentario");
+    const comentarioCards = document.querySelectorAll("#comentario-card");
 
-     const reader = new FileReader();
-     reader.onload = (event) => {
-       ImgPreview.src = event.target.result;
-       divImgPreview.classList.remove('d-none');
-     };
-     reader.readAsDataURL(file);
-   });
+    comentarioBtns.forEach(function (btn, index) {
 
-   comentarioBtn.addEventListener('click', (event) => {
-     event.preventDefault();
-     comentarioCard.classList.toggle('d-none');
-     resetCommentForm();
-     conteudoTxt.focus();
-   });
+        btn.addEventListener("click", function (event) {
 
-   cancelarBtn.addEventListener('click', () => {
-     comentarioCard.classList.add('d-none');
-     resetCommentForm();
-   });
+            event.preventDefault();
 
-   enviarBtn.addEventListener('click', () => {
-     const hasText = conteudoTxt.value.trim();
-     const hasImage = ComentarioImgInput.files.length > 0;
+            const card = comentarioCards[index];
 
-     if (!hasText && !hasImage) {
-       conteudoTxt.focus();
-       return;
-     }
+            if (card) {
+                card.classList.toggle("d-none");
+            }
 
-     const imageName = hasImage ? ComentarioImgInput.files[0].name : '';
-     const message = hasText ? `Comentário enviado: ${conteudoTxt.value.trim()}` : 'Comentário enviado com foto';
-     alert(imageName ? `${message} (${imageName})` : message);
-     resetCommentForm();
-     comentarioCard.classList.add('d-none');
-   });
+        });
+
+    });
+
+
+    // ==============================
+    // BOTÕES "CANCELAR"
+    // ==============================
+
+    const cancelarBtns = document.querySelectorAll("#cancelar");
+
+    cancelarBtns.forEach(function (btn, index) {
+
+        btn.addEventListener("click", function () {
+
+            const card = comentarioCards[index];
+
+            if (card) {
+                card.classList.add("d-none");
+            }
+
+        });
+
+    });
+
+
+    // ==============================
+    // PREVIEW DA IMAGEM
+    // ==============================
+
+    const imagemInputs = document.querySelectorAll("#imgComentario");
+    const previews = document.querySelectorAll("#comentarioImgPreview");
+
+    imagemInputs.forEach(function (input, index) {
+
+        input.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            const preview = previews[index];
+
+            if (!preview) {
+                return;
+            }
+
+            const img = preview.querySelector("img");
+
+            if (!file) {
+
+                preview.classList.add("d-none");
+
+                if (img) {
+                    img.src = "";
+                }
+
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                if (img) {
+                    img.src = event.target.result;
+                }
+
+                preview.classList.remove("d-none");
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+    });
+
+
+});
