@@ -20,8 +20,8 @@ public class Postagem implements Serializable{
 	@Column(name = "Titulo", nullable = false)
 	private String Titulo;
 	
-	@NotNull(message= "O post precisa de um conteudo")
 	@Lob
+	@NotNull(message= "O post precisa de um conteudo")
 	@Column(name = "Conteudo", nullable = false)
 	private String Conteudo;
 	
