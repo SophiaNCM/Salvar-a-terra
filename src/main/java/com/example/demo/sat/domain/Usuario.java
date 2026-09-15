@@ -1,6 +1,7 @@
 package com.example.demo.sat.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Usuario implements  UserDetails {
 	
 	@PastOrPresent(message = "A data de nascimento não pode ser futura")
 	@Column(name = "DtNascimento", nullable = true)
-	private LocalDateTime DtNascimento;
+	private LocalDate DtNascimento;
 	
 	@Column(name = "Descricao", nullable = true)
 	private String Descricao;
