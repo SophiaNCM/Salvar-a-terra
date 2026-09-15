@@ -121,10 +121,10 @@ public class Usuario implements  UserDetails {
 		Comentario = comentario;
 	}
 	
-	public LocalDateTime getDtNascimento() {
+	public LocalDate getDtNascimento() {
 		return DtNascimento;
 	}
-	public void setDtNascimento(LocalDateTime dtNascimento) {
+	public void setDtNascimento(LocalDate dtNascimento) {
 		DtNascimento = dtNascimento;
 	}
 	
