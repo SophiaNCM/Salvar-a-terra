@@ -18,6 +18,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @SuppressWarnings("serial")
 @Entity
@@ -42,6 +43,7 @@ public class Usuario implements  UserDetails {
 	@Column(name = "ImgUsuario", nullable = true)
 	private String ImgUsuario;
 	
+	@PastOrPresent(message = "A data de nascimento não pode ser futura")
 	@Column(name = "DtNascimento", nullable = true)
 	private LocalDateTime DtNascimento;
 	

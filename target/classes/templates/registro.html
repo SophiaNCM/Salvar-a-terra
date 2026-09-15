@@ -29,7 +29,7 @@
                 <label for="birthdate" class="form-label">Data de nascimento</label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-                  <input type="date" id="birthdate" name="birthdate" class="form-control" th:field="*{DtNascimento}" required>
+                  <input type="date" id="birthdate" name="birthdate" class="form-control" th:field="*{DtNascimento}"  th:attr="max=${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" required>
                 </div>
               </div>
               <div class="mb-3">
