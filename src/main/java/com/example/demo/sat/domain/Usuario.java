@@ -14,8 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +38,7 @@ public class Usuario implements  UserDetails {
 	@Column(name = "Email", nullable = false)
 	private String Email;
 	
+	@Lob
 	@Column(name = "ImgUsuario", nullable = true)
 	private String ImgUsuario;
 	

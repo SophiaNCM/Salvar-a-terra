@@ -35,6 +35,7 @@ public class Postagem implements Serializable{
 	@Column(name = "Likes", nullable = true)
 	private int Likes;
 	
+	@Lob
 	@Column(name = "ImgURL", nullable = true)
 	private String ImgURL;
 	
