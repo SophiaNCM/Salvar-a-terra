@@ -36,7 +36,7 @@ public class Postagem implements Serializable{
 	private int Likes;
 	
 	@Lob
-	@Column(name = "ImgURL", nullable = true)
+	@Column(name = "ImgURL", nullable = true, length = 1000000)
 	private String ImgURL;
 	
 	@ManyToOne

@@ -33,7 +33,7 @@ public class Comentario implements Serializable{
 		private LocalDate PostData;
 		
 		@Lob
-		@Column(name = "ImgURL", nullable = true)
+		@Column(name = "ImgURL", nullable = true, length = 1000000)
 		private String ImgURL;
 		
 		@ManyToOne

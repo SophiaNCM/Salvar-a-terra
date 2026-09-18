@@ -41,7 +41,7 @@ public class Usuario implements  UserDetails {
 	private String Email;
 	
 	@Lob
-	@Column(name = "ImgUsuario", nullable = true)
+	@Column(name = "ImgUsuario", nullable = true, length = 1000000)
 	private String ImgUsuario;
 	
 	@PastOrPresent(message = "A data de nascimento não pode ser futura")
